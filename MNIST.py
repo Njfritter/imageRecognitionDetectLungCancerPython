@@ -23,11 +23,14 @@
 import sys
 from sklearn.utils import shuffle
 from sklearn import datasets
+print("Fetching Data Remotely")
+mnist = datasets.fetch_mldata("MNIST Original")
+
+# Next we import the matplotlib library as it is used in every function
 import matplotlib as mpl
 mpl.use('TkAgg')
 import matplotlib.pyplot as plt
-print("Fetching Data Remotely")
-mnist = datasets.fetch_mldata("MNIST Original")
+
 
 
 
@@ -59,9 +62,6 @@ scoreMatrix = leftSingular * rightSingular
 def princicalComponentAnalysis():
 	# https://gist.github.com/mrgloom/6622175
 	# Explanation: https://lazyprogrammer.me/tutorial-principal-components-analysis-pca/
-	import matplotlib as mpl
-	mpl.use('TkAgg')
-	import matplotlib.pyplot as plt
 	from sklearn.decomposition import PCA
 
 	X, y = mnist.data / 255., mnist.target
@@ -81,7 +81,7 @@ def princicalComponentAnalysis():
 
 	X_transformed = pca.fit_transform(X_train)
 	print(pca.explained_variance_ratio_)
-	plot.scatter(X_transformed[:, 0], X_transformed[:, 1], c=y_train)
+	plot.scatter(X_transformed[:, 0], X_transformed[:, 1], c = y_train)
 	plot.set_xticks(())
 	plot.set_yticks(())
 
@@ -110,9 +110,6 @@ def neuralNetwork():
 	# We will use this code to classify handwritten digits from 0 - 9
 	# Here we use a Neural Network
 	# First load the correct packages
-	import matplotlib as mpl
-	mpl.use('TkAgg')
-	import matplotlib.pyplot as plt
 	from sklearn.neural_network import MLPClassifier
 
 	# rescale the data, use the traditional train/test split
@@ -167,6 +164,7 @@ def neuralNetwork():
 def kNearestNeighbors():
 	# https://lazyprogrammer.me/tutorial-k-nearest-neighbor-classifier-for-mnist/
 	# http://andrew.gibiansky.com/blog/machine-learning/k-nearest-neighbors-simplest-machine-learning/
+	import random
 	def predict(self, point):
     # We have to copy the data set list, because once we've located the best
     # candidate from it, we don't want to see that candidate again, so we'll delete it.
@@ -281,9 +279,6 @@ def kNearestNeighbors():
 
 def decisionTree():
 	# https://github.com/efebozkir/handwrittendigit-recognition/blob/master/decisiontreefile.py
-	import matplotlib as mpl
-	mpl.use('TkAgg')
-	import matplotlib.pyplot as plt
 	from sklearn import tree
 	from sklearn import metrics
 	from sklearn import cross_validation
