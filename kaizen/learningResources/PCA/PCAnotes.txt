@@ -1,0 +1,31 @@
+https://plot.ly/ipython-notebooks/principal-component-analysis/
+https://www.youtube.com/watch?v=IbE0tbjy6JQ&index=1&list=PLBv09BD7ez_5_yapAg86Od6JeeypkS4YM
+
+PCA aims to detect the correlation between variables
+
+In a nutshell, this is what PCA is all about: Finding the directions of maximum variance in high-dimensional data and project it onto a smaller dimensional subspace while retaining most of the information.
+
+PCA is a linear transformation method
+
+PCA yields the directions (principal components) that maximize the variance of the data,
+
+
+PCA steps overview:
+1 Standardize the data.
+
+2 Obtain the Eigenvectors and Eigenvalues from the covariance matrix or correlation matrix, or perform Singular Vector Decomposition.
+
+3 Sort eigenvalues in descending order and choose the kk eigenvectors that correspond to the kk largest eigenvalues where kk is the number of dimensions of the new feature subspace (k≤dk≤d)/.
+
+4 Construct the projection matrix WW from the selected kk eigenvectors.
+
+5 Transform the original dataset XX via WW to obtain a kk-dimensional feature subspace YY
+
+Standardizing data
+Whether to standardize the data prior to a PCA on the covariance matrix depends on the measurement scales of the original features. Since PCA yields a feature subspace that maximizes the variance along the axes, it makes sense to standardize the data, especially, if it was measured on different scales. Although, all features in the Iris dataset were measured in centimeters, let us continue with the transformation of the data onto unit scale (mean=0 and variance=1), which is a requirement for the optimal performance of many machine learning algorithms.
+
+
+The eigenvectors and eigenvalues of a covariance (or correlation) matrix represent the "core" of a PCA: The eigenvectors (principal components) determine the directions of the new feature space, and the eigenvalues determine their magnitude. In other words, the eigenvalues explain the variance of the data along the new feature axes.
+
+
+specially, in the field of "Finance," the correlation matrix typically used instead of the covariance matrix. However, the eigendecomposition of the covariance matrix (if the input data was standardized) yields the same results as a eigendecomposition on the correlation matrix, since the correlation matrix can be understood as the normalized covariance matrix.

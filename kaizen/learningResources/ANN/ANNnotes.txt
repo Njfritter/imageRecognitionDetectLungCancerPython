@@ -1,0 +1,4 @@
+normalize data
+input nodes are features, hidden layers are defined by activation functions and use input nodes
+
+

@@ -1,0 +1,15 @@
+TODO:
+	Learn about ANN
+	Neural Networks - MNIST
+		forward propogation
+		gradient descent/stochastic gradient descent
+		backpropogation
+
+	download AMATH582 videos:
+		http://mediasite6.pce.uw.edu/Mediasite/Login?ReturnUrl=%2fMediasite%2fCatalog%2fcatalogs%2f582amath#
+
+	Look at Ravi's breast cancer code
+	learn into tensor flow
+
+Berkeley data science class:
+	https://data-8.appspot.com/sp16/course
