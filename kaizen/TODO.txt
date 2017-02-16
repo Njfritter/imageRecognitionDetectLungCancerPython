@@ -1,15 +1,24 @@
 TODO:
-	Learn about ANN
-	Neural Networks - MNIST
+	
+	Pandas/python video:
+		https://www.youtube.com/watch?v=Iqjy9UqKKuo&index=1&list=PLQVvvaa0QuDc-3szzjeP6N6b0aDrrKyL-
+
+	learn Neural Networks
 		forward propogation
 		gradient descent/stochastic gradient descent
 		backpropogation
+
+	Look into stochastic Neural Networks
 
 	download AMATH582 videos:
 		http://mediasite6.pce.uw.edu/Mediasite/Login?ReturnUrl=%2fMediasite%2fCatalog%2fcatalogs%2f582amath#
 
 	Look at Ravi's breast cancer code
-	learn into tensor flow
+	look into tensor flow
 
 Berkeley data science class:
 	https://data-8.appspot.com/sp16/course
+
+Caltech machine learning course:
+	https://www.youtube.com/watch?v=mbyG85GZ0PI
+	https://work.caltech.edu/telecourse.html
