@@ -12,6 +12,7 @@ import scipy.ndimage
 import matplotlib as mpl
 mpl.use('TkAgg')
 import matplotlib.pyplot as plt
+import csv
 
 from skimage import measure, morphology
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
@@ -82,18 +83,19 @@ def get_pixels_hu(slices):
             
         image[slice_number] += np.int16(intercept)
     
-    return np.array(image, dtype=np.int16)
+    return np.array(image, dtype = np.int16)
+
 
 # Let's look at the first patient
 first_patient = load_scan(INPUT_FOLDER + patients[0])
 first_patient_pixels = get_pixels_hu(first_patient)
-plt.hist(first_patient_pixels.flatten(), bins=80, color='c')
+plt.hist(first_patient_pixels.flatten(), bins = 80, color = 'c')
 plt.xlabel("Hounsfield Units (HU)")
 plt.ylabel("Frequency")
 plt.show()
 
 # Show some slice in the middle
-plt.imshow(first_patient_pixels[80], cmap=plt.cm.gray)
+plt.imshow(first_patient_pixels[80], cmap = plt.cm.gray)
 plt.show()
 
 """ 
@@ -185,8 +187,8 @@ Keep only the largest air pocket
 (the human body has other pockets of air here and there).
 """
 
-def largest_label_volume(im, bg=-1):
-    vals, counts = np.unique(im, return_counts=True)
+def largest_label_volume(im, bg = -1):
+    vals, counts = np.unique(im, return_counts = True)
 
     counts = counts[vals != bg]
     vals = vals[vals != bg]
@@ -196,11 +198,11 @@ def largest_label_volume(im, bg=-1):
     else:
         return None
 
-def segment_lung_mask(image, fill_lung_structures=True):
+def segment_lung_mask(image, fill_lung_structures = True):
     
     # not actually binary, but 1 and 2. 
     # 0 is treated as background, which we do not want
-    binary_image = np.array(image > -320, dtype=np.int8)+1
+    binary_image = np.array(image > -320, dtype = np.int8) + 1
     labels = measure.label(binary_image)
     
     # Pick the pixel in the very corner to determine which label is air.
@@ -220,14 +222,14 @@ def segment_lung_mask(image, fill_lung_structures=True):
         for i, axial_slice in enumerate(binary_image):
             axial_slice = axial_slice - 1
             labeling = measure.label(axial_slice)
-            l_max = largest_label_volume(labeling, bg=0)
+            l_max = largest_label_volume(labeling, bg = 0)
             
             if l_max is not None: #This slice contains some lung
                 binary_image[i][labeling != l_max] = 1
 
     
     binary_image -= 1 #Make the image actual binary
-    binary_image = 1-binary_image # Invert it, lungs are now 1
+    binary_image = 1 - binary_image # Invert it, lungs are now 1
     
     # Remove other air pockets insided body
     labels = measure.label(binary_image, background=0)
@@ -286,8 +288,8 @@ MAX_BOUND = 400.0
     
 def normalize(image):
     image = (image - MIN_BOUND) / (MAX_BOUND - MIN_BOUND)
-    image[image>1] = 1.
-    image[image<0] = 0.
+    image[image > 1] = 1.
+    image[image < 0] = 0.
     return image
 
 
@@ -317,5 +319,16 @@ You can do all these steps offline (one time and save the result),
 and I would advise you to do so and let it run overnight as it may take a long time.
 Tip: To save storage space, don't do normalization and zero centering beforehand, 
 but do this online (during training, just after loading). 
-If you don't do this yet, your image are int16's, which are smaller than float32s and easier to compress as well.
+If you don't do this yet, your image are int16's, 
+which are smaller than float32s and easier to compress as well.
 """
+
+# First let's look at what models we could end up with WITHOUT normalizing
+patient_file = "sample_images_labels.csv"
+patient_labels = pd.read_csv(patient_file, 
+                            names = ["ID", 
+                                    "Label"])
+labels = np.array(patient_labels["Label"])
+
+
+
