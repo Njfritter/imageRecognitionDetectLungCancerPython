@@ -26,7 +26,7 @@ print(config.sections())
 
 # Not necessary but in case we need to read more stuff
 # Taken from https://wiki.python.org/moin/ConfigParserExamples
-"""
+
 def ConfigSectionMap(section):
     dict1 = {}
     options = config.options(section)
@@ -39,7 +39,7 @@ def ConfigSectionMap(section):
             print("exception on %s!" % option)
             dict1[option] = None
     return dict1
-"""
+
 
 # Load folder
 INPUT_FOLDER = config["DEFAULT"]["Directory"]
