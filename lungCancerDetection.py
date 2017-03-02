@@ -13,12 +13,36 @@ import matplotlib as mpl
 mpl.use('TkAgg')
 import matplotlib.pyplot as plt
 import csv
+import configparser
 
 from skimage import measure, morphology
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-# Some constants 
-INPUT_FOLDER = '/Users/njfritter/myProjects/ucsbDataScience/imageRecognitionDetectLungCancerPython/sample_images/'
+# First let's extract the input folder
+folder = os.path.join(os.path.dirname(__file__), 'inputs.ini')
+config = configparser.ConfigParser()
+config.read(folder)
+print(config.sections())
+
+# Not necessary but in case we need to read more stuff
+# Taken from https://wiki.python.org/moin/ConfigParserExamples
+
+def ConfigSectionMap(section):
+    dict1 = {}
+    options = config.options(section)
+    for option in options:
+        try:
+            dict1[option] = config.get(section, option)
+            if dict1[option] == -1:
+                DebugPrint("skip: %s" % option)
+        except:
+            print("exception on %s!" % option)
+            dict1[option] = None
+    return dict1
+
+
+# Load folder
+INPUT_FOLDER = config["DEFAULT"]["Directory"]
 patients = os.listdir(INPUT_FOLDER)
 patients.sort()
 
@@ -31,7 +55,8 @@ This pixel size/coarseness of the scan differs from scan to scan
 (e.g. the distance between slices may differ), which can hurt performance of CNN approaches. 
 We can deal with this by isomorphic resampling, which we will do later.
 Below is code to load a scan, which consists of multiple slices, which we simply save in a Python list. 
-Every folder in the dataset is one scan (so one patient). One metadata field is missing, the pixel size in the Z direction, which is the slice thickness. 
+Every folder in the dataset is one scan (so one patient). 
+One metadata field is missing, the pixel size in the Z direction, which is the slice thickness. 
 Fortunately we can infer this, and we add this to the metadata
 """
 
@@ -110,9 +135,9 @@ Whilst this may seem like a very simple step, it has quite some edge cases due t
 Below code worked well for us (and deals with the edge cases):
 """
 
-def resample(image, scan, new_spacing=[1,1,1]):
+def resample(image, scan, new_spacing = [1, 1, 1]):
     # Determine current pixel spacing
-    spacing = np.array([scan[0].SliceThickness] + scan[0].PixelSpacing, dtype=np.float32)
+    spacing = np.array([scan[0].SliceThickness] + scan[0].PixelSpacing, dtype = np.float32)
 
     resize_factor = spacing / new_spacing
     new_real_shape = image.shape * resize_factor
@@ -120,7 +145,7 @@ def resample(image, scan, new_spacing=[1,1,1]):
     real_resize_factor = new_shape / image.shape
     new_spacing = spacing / real_resize_factor
     
-    image = scipy.ndimage.interpolation.zoom(image, real_resize_factor, mode='nearest')
+    image = scipy.ndimage.interpolation.zoom(image, real_resize_factor, mode = 'nearest')
     
     return image, new_spacing
 
@@ -131,7 +156,7 @@ Due to rounding this may be slightly off from the desired spacing
 Let's resample our patient's pixels to an isomorphic resolution of 1 by 1 by 1 mm.
 """
 
-pix_resampled, spacing = resample(first_patient_pixels, first_patient, [1,1,1])
+pix_resampled, spacing = resample(first_patient_pixels, first_patient, [1, 1, 1])
 print("Shape before resampling\t", first_patient_pixels.shape)
 print("Shape after resampling\t", pix_resampled.shape)
 
@@ -142,7 +167,7 @@ and plot this with matplotlib.
 Not the best method, but it'll have to do
 """
 
-def plot_3d(image, threshold=-300):
+def plot_3d(image, threshold =- 300):
     
     # Position the scan upright, 
     # so the head of the patient would be at the top facing the camera

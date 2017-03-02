@@ -119,7 +119,7 @@ def neuralNetwork():
 
 	# mlp = MLPClassifier(hidden_layer_sizes=(100, 100), max_iter=400, alpha=1e-4,
 	#                     solver='sgd', verbose=10, tol=1e-4, random_state=1)
-	mlp = MLPClassifier(hidden_layer_sizes=(100,), 
+	mlp = MLPClassifier(hidden_layer_sizes=(100,100), 
 						max_iter=10, 
 						alpha=1e-4,
 	                    solver='sgd', 
