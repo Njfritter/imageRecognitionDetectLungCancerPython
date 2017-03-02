@@ -1,4 +1,5 @@
 appdirs==1.4.0
+configparser==3.5.0
 cycler==0.10.0
 dask==0.13.0
 decorator==4.0.11
