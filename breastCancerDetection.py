@@ -3,7 +3,6 @@ Taken from the preprocessing tutorial in the link below
 https://www.kaggle.com/gzuidhof/data-science-bowl-2017/full-preprocessing-tutorial/notebook
 Let's import our modules and shit
 """
-%matplotlib inline
 
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
@@ -16,10 +15,11 @@ from skimage import measure, morphology
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 # Some constants 
-INPUT_FOLDER = '.../input/sample_images/'
+INPUT_FOLDER = "c:/Users/richa/datascience/imageRecognitionDetectLungCancerPython/sample_images/"
 patients = os.listdir(INPUT_FOLDER)
 patients.sort()
-
+patients = [s for s in patients if not s.startswith("._")]
+print(patients);
 
 """
 Dicom is the de-facto file standard in medical imaging. 
@@ -35,7 +35,7 @@ Fortunately we can infer this, and we add this to the metadata
 
 # Load the scans in given folder path
 def load_scan(path):
-    slices = [dicom.read_file(path + '/' + s) for s in os.listdir(path)]
+    slices = [dicom.read_file((path + '/' + s), force = True) for s in os.listdir(path)]
     slices.sort(key = lambda x: int(x.ImagePositionPatient[2]))
     try:
         slice_thickness = np.abs(slices[0].ImagePositionPatient[2] - slices[1].ImagePositionPatient[2])
