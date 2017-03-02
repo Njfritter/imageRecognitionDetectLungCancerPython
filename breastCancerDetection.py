@@ -3,20 +3,21 @@ Taken from the preprocessing tutorial in the link below
 https://www.kaggle.com/gzuidhof/data-science-bowl-2017/full-preprocessing-tutorial/notebook
 Let's import our modules and shit
 """
-%matplotlib inline
 
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import dicom
 import os
 import scipy.ndimage
+import matplotlib as mpl
+mpl.use('TkAgg')
 import matplotlib.pyplot as plt
 
 from skimage import measure, morphology
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 # Some constants 
-INPUT_FOLDER = '.../input/sample_images/'
+INPUT_FOLDER = '/Users/kaizen/Documents/DataScienceGroupProjects/sample_images/'
 patients = os.listdir(INPUT_FOLDER)
 patients.sort()
 
